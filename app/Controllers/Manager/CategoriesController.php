@@ -40,8 +40,12 @@ class CategoriesController extends BaseController
             return redirect()->back();
         }
 
-        exit($this->request->getGet('id'));
+        $category = $this->categoryService->getCategory($this->request->getGet('id'));
 
-        // return $this->response->setJSON(['data' => $this->categoryService->getAllCategories()]);
+        $response = [
+            'category' => $category
+        ];
+
+        return $this->response->setJSON($response);
     }
 }

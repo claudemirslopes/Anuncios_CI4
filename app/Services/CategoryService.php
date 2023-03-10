@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entities\Category;
 use App\Models\CategoryModel;
 use CodeIgniter\Config\Factories;
 
@@ -50,5 +51,24 @@ class CategoryService
         }
 
         return $data;
+    }
+
+    /**
+     * Recupera a categoria de acordo com o ID
+     * 
+     * @param integer $id
+     * @param boolean $withDeleted
+     * @throws Exception
+     * @return null|Category
+     */
+    public function getCategory(int $id, bool $withDeleted = false)
+    {
+        $category = $this->categoryModel->withDeleted($withDeleted)->find($id);
+
+        if (is_null($category)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Category not found');
+        }
+
+        return $category;
     }
 }
